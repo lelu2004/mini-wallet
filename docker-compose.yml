@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: ewallet_db
+    environment:
+      MYSQL_DATABASE: mini_ewallet
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ewallet_mysql_data:/var/lib/mysql
+
+volumes:
+  ewallet_mysql_data:
