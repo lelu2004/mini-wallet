@@ -4,6 +4,7 @@ import com.kim.shin.miniwalletapi.dto.request.DepositRequest;
 import com.kim.shin.miniwalletapi.dto.request.TransferRequest;
 import com.kim.shin.miniwalletapi.dto.request.WithdrawRequest;
 import com.kim.shin.miniwalletapi.dto.response.TransactionResponse;
+import com.kim.shin.miniwalletapi.dto.response.WalletResponse;
 import com.kim.shin.miniwalletapi.entity.Transaction;
 import com.kim.shin.miniwalletapi.entity.Wallet;
 import com.kim.shin.miniwalletapi.enums.TransactionStatus;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -119,9 +121,26 @@ public class WalletServiceImpl implements WalletService {
         return TransactionResponse.from(transactionRepository.save(transaction));
     }
 
+
     private Wallet getWalletByUserId(Long userId) {
         return walletRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Wallet not found for user: " + userId));
     }
+    @Override
+    public WalletResponse getBalance(Long userId) {
+        Wallet wallet = getWalletByUserId(userId);
+        return WalletResponse.from(wallet);
+    }
+
+    @Override
+    public List<TransactionResponse> getTransactionHistory(Long userId) {
+        Wallet wallet = getWalletByUserId(userId);
+        return transactionRepository
+                .findByWalletIdOrderByCreatedAtDesc(wallet.getId())
+                .stream()
+                .map(TransactionResponse::from)
+                .toList();
+    }
+
 }
