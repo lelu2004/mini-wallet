@@ -2,6 +2,7 @@ package com.kim.shin.miniwalletapi.service;
 
 import com.kim.shin.miniwalletapi.dto.request.RegisterRequest;
 import com.kim.shin.miniwalletapi.dto.response.UserResponse;
+import java.util.List;
 
 public interface UserService {
 

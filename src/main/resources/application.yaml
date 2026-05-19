@@ -16,3 +16,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+
+  app:
+    jwt:
+      secret: "miniwalletapisecretkey2026miniwalletapisecretkey2026"
+      access-token-expiration: 900000       # 15 phút (ms)
+      refresh-token-expiration: 604800000   # 7 ngày (ms)
