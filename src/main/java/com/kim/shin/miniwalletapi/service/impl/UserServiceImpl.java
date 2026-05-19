@@ -10,6 +10,7 @@ import com.kim.shin.miniwalletapi.repository.UserRepository;
 import com.kim.shin.miniwalletapi.repository.WalletRepository;
 import com.kim.shin.miniwalletapi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -31,12 +33,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email already exists: " + request.getEmail());
         }
 
-        // TODO Phase 2: thay bằng BCryptPasswordEncoder khi thêm Spring Security
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
                 .phone(request.getPhone())
-                .passwordHash(request.getPassword())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .status(UserStatus.ACTIVE)
                 .build();
 
