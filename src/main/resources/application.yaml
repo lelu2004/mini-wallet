@@ -22,3 +22,8 @@ app:
     secret: "miniwalletapisecretkey2026miniwalletapisecretkey2026"
     access-token-expiration: 900000
     refresh-token-expiration: 604800000
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
